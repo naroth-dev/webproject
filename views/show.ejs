@@ -1,0 +1,36 @@
+<% include partials/header.ejs %>
+
+<h1>This is a Show Page</h1>
+
+<div class="container">
+        <div class="row d-flex flex-wrap">
+            
+            <% dramaList.forEach(function(drama){ %>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card" style="width: 17rem;">
+                        <img src="<%= drama.image%>">
+                        <div class="card-body text-center">
+                            <h5 class="card-title "><%=drama.title%></h5>
+                            <h5 class="card-text "><%=drama.genre%></h5>
+                            <h5 class="card-text "><%=drama.noEps%></h5>
+                            <h5 class="card-text "><%=drama.ep%></h5>
+                            <h5 class="card-text "><%=drama.cast%></h5>
+                            // Do the loop here
+                            <a href="/drama/<%= drama.title%>/episode1" class="btn btn-info">Episode 1</a>
+                            <a href="/drama/<%= drama.title%>/episode2" class="btn btn-info">Episode 2</a>
+                            <a href="/drama/<%= drama.title%>/episode3" class="btn btn-info">Episode 3</a>
+                            <a href="/drama/<%= drama.title%>/episode4" class="btn btn-info">Episode 4</a>
+        
+                        </div>
+                    </div>
+
+                </div>
+            <% }); %> 
+            
+        </div>
+</div>
+
+
+<% include partials/footer.ejs %>
+
+

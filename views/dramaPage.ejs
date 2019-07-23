@@ -1,0 +1,28 @@
+<% include partials/header.ejs %>
+
+
+
+    <header class="container">
+        <h1>This is a Drama Page</h1>
+        <p><a class="btn btn-primary" href="/drama/new">Add New Drama</a></p>
+    </header>
+
+    <div class="container">
+        <div class="row d-flex flex-wrap">
+            
+            <% dramaList.forEach(function(drama){ %>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card" style="width: 17rem;">
+                        <img src="<%= drama.image%>">
+                        <div class="card-body text-center">
+                            <h5 class="card-title "><%=drama.title%></h5>
+                            <a href="/drama/<%= drama.title%>" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+
+                </div>
+            <% }); %> 
+            
+        </div>
+    </div>
+<% include partials/footer.ejs %>
