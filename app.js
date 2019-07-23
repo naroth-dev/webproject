@@ -6,16 +6,16 @@ const mongoose = require("mongoose");
 
 // Mongoose Connect
 mongoose.connect('mongodb+srv://nararoth:Iam@Nararoth1303378@cluster0-5mszq.mongodb.net/test?retryWrites=true&w=majority', {
-	useNewUrlParser: true,
-	useCreateIndex: true
-}).then(()=>{
-	console.log("Connected to DB!");
-}).catch(err=>{
-	console.log('Error',err.message);
+    useNewUrlParser: true,
+    useCreateIndex: true
+}).then(() => {
+    console.log("Connected to DB!");
+}).catch(err => {
+    console.log('Error', err.message);
 });
 
 // App Configuration
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
@@ -65,17 +65,17 @@ app.get("/", (req, res) => {
 });
 
 app.get("/drama", (req, res) => {
-    dramaList.find({}, function(err, dramaList){
-        if(err){
+    dramaList.find({}, function (err, dramaList) {
+        if (err) {
             console.log(err)
         } else {
-            res.render("dramaPage", {dramaList: dramaList}); 
+            res.render("dramaPage", { dramaList: dramaList });
         }
     })
-   
+
 });
 
-app.post("/drama", (req,res) => {
+app.post("/drama", (req, res) => {
     var title = req.body.title;
     var image = req.body.image;
     var genre = req.body.genre;
@@ -83,9 +83,9 @@ app.post("/drama", (req,res) => {
     var cast = req.body.cast;
     var ep = req.body.ep;
     var epLink = req.body.epLink;
-    var newDrama = {title: title, image: image, genre: genre, noEps:noEps, cast:cast, ep:ep, epLink:epLink};
+    var newDrama = { title: title, image: image, genre: genre, noEps: noEps, cast: cast, ep: ep, epLink: epLink };
     dramaList.create(newDrama, (err, newlyCreated) => {
-        if(err){
+        if (err) {
             console.log(err)
         } else {
             res.redirect("/drama")
@@ -93,7 +93,7 @@ app.post("/drama", (req,res) => {
     })
 });
 
-app.get("/drama/new", (req,res) => {
+app.get("/drama/new", (req, res) => {
     res.render("new")
 });
 
@@ -105,24 +105,24 @@ app.get("/drama/new", (req,res) => {
 //             res.render("show", {foundDrama: foundDrama});
 //         }
 //     });
-    
+
 // });
 
-app.get("/drama/:title", (req,res) => {
-    dramaList.find({title: req.params.title}, (err, dramaList) => {
-        if(err){
+app.get("/drama/:title", (req, res) => {
+    dramaList.find({ title: req.params.title }, (err, dramaList) => {
+        if (err) {
             console.log(err);
         } else {
             console.log(dramaList);
-            res.render("show", {dramaList: dramaList}); 
+            res.render("show", { dramaList: dramaList });
         };
     });
 });
 
-app.get("/drama/:title/:ep", (req,res) => {
-    res.send("Future Ep")
+app.get("/drama/:title/:ep", (req, res) => {
+    res.send("Future Ep :)")
 });
 
-app.listen(3000, process.env.IP, function(){
+app.listen(3000, process.env.IP, function () {
     console.log("server is running!");
 });
