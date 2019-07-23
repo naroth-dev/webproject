@@ -15,11 +15,12 @@
                             <h5 class="card-text "><%=drama.noEps%></h5>
                             <h5 class="card-text "><%=drama.ep%></h5>
                             <h5 class="card-text "><%=drama.cast%></h5>
-                            // Do the loop here
-                            <a href="/drama/<%= drama.title%>/episode1" class="btn btn-info">Episode 1</a>
-                            <a href="/drama/<%= drama.title%>/episode2" class="btn btn-info">Episode 2</a>
-                            <a href="/drama/<%= drama.title%>/episode3" class="btn btn-info">Episode 3</a>
-                            <a href="/drama/<%= drama.title%>/episode4" class="btn btn-info">Episode 4</a>
+                        
+                            <% while (i=0 < drama.noEps) { %>
+                                <a href="/drama/<%= drama.title%>/<%= drama.ep%>" class="btn btn-info">Episode <%= drama.ep%></a>;
+                                <% return i++; %>
+                            <% }; %>
+                            
         
                         </div>
                     </div>

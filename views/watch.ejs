@@ -1,0 +1,31 @@
+<% include partials/header.ejs %>
+
+
+
+<div class="container my-5">
+
+    <% dramaList.forEach(function(drama){ %>
+        <div class="card-body">
+            <h3>Title:  <strong><%= drama.title%></strong></h3>
+            <p> Episode: <strong><%= drama.ep%></strong> </p>
+        </div>
+    <% }); %> 
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <iframe width="1191" height="670" src="https://www.youtube.com/embed/kOHB85vDuow" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <a href="" class="btn btn-info">Server 1</a>
+            <a href="" class="btn btn-info">Server 2</a>
+            <a href="" class="btn btn-info">Server 3</a>
+            <a href="" class="btn btn-info">Server 4</a>
+            <a href="" class="btn btn-info">Server 5</a>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer.ejs %>

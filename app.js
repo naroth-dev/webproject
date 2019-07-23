@@ -4,8 +4,10 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+
+
 // Mongoose Connect
-mongoose.connect('mongodb+srv://nararoth:Iam@Nararoth1303378@cluster0-5mszq.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://nararoth:CxEUuAAaC8wCeIuq@cluster0-bbu2l.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useCreateIndex: true
 }).then(() => {
@@ -120,7 +122,15 @@ app.get("/drama/:title", (req, res) => {
 });
 
 app.get("/drama/:title/:ep", (req, res) => {
-    res.send("Future Ep :)")
+    dramaList.find({ title: req.params.title }, (err, dramaList) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(dramaList);
+            res.render("watch", { dramaList: dramaList });
+        };
+    });
+
 });
 
 app.listen(3000, process.env.IP, function () {
