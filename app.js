@@ -133,18 +133,18 @@ app.delete("/drama/:title", (req, res) => {
     });
 });
 
-//watch route
-// app.get("/drama/:title/:ep", (req, res) => {
-//     dramaList.update({}, { $set: { dramaList: req.body.drama } }, (err, dramaList) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             dramaList.update()
-//             res.render("watch", { dramaList: dramaList });
-//         };
-//     });
+// watch route
+app.get("/drama/:title/:ep", (req, res) => {
+    dramaList.find({ title: req.params.title }, (err, dramaList) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(dramaList);
+            res.render("watch", { dramaList: dramaList });
+        };
+    });
 
-// });
+});
 
 
 

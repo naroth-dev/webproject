@@ -35,8 +35,6 @@
                         <label for="genre">Episode(s) Link</label>
                         <input class="form-control" type="text" name="epLink" placeholder="Episode(s) Link">
                     </div>
-                    
-            
                     <button class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -44,6 +42,20 @@
     </div>
 </div>
 
+
+<% function addNew (add) { %>
+     <% dramaList.forEach(function(drama){ %>
+        <% var i = 0 %>
+        <% while (i < drama.noEps) { %>
+            <div>
+                <a href="/drama/<%= drama.title%>/<%= i+1%>">Episode <%= i+1%></a>
+                <% i++; %>
+            </div>
+            
+            
+        <% } %>
+    <% }); %>
+<% }; %>
 
 
 <% include partials/footer.ejs%>
