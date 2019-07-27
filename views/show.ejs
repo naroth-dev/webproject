@@ -15,11 +15,7 @@
                             <h5 class="card-text "><%=drama.noEps%></h5>
                             <h5 class="card-text "><%=drama.ep%></h5>
                             <h5 class="card-text "><%=drama.cast%></h5>
-                        
-                            <% while (i=0 < drama.noEps) { %>
-                                <a href="/drama/<%= drama.title%>/<%= drama.ep%>" class="btn btn-info">Episode <%= drama.ep%></a>;
-                                <% return i++; %>
-                            <% }; %>
+                            <% epButton(); %>
                             
         
                         </div>
@@ -30,6 +26,22 @@
             
         </div>
 </div>
+
+
+<% function epButton (epButton) { %>
+     <% dramaList.forEach(function(drama){ %>
+        <% var i = 0 %>
+        <% while (i < drama.noEps) { %>
+            <div>
+                <a href="/drama/<%= drama.title%>/<%= i+1%>">Episode <%= i+1%></a>
+                <% i++; %>
+            </div>
+            
+            
+        <% } %>
+    <% }); %>
+<% }; %>
+
 
 
 <% include partials/footer.ejs %>

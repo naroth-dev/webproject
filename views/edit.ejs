@@ -1,0 +1,53 @@
+<% include partials/header.ejs%>
+
+<div class="container">
+    <div class="text-center">
+        <div class="row">
+            <% dramaList.forEach(function(drama){ %>
+            <div style="width:50%; margin:0 auto;">
+            <h1>Edit</h1>
+                <form action="/drama/<%= drama.title%>?_method=PUT" method="POST">
+                    
+                        <div class="form-group">
+                            <label for="title">Title of Drama</label>
+                            <input class="form-control" type="text" name="drama[title]" value="<%= drama.title%>">
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image URL</label>
+                            <input class="form-control" type="text" name="drama[image]" value="<%= drama.image%>">
+                        </div>
+                        <div class="form-group">
+                            <label for="genre">Drama Genre(s)</label>
+                            <input class="form-control" type="text" name="drama[genre]" value="<%= drama.genre%>">
+                        </div>
+                        <div class="form-group">
+                            <label for="genre">Number of Eps</label>
+                            <input class="form-control" type="text" name="drama[noEps]" value="<%= drama.noEps%>">
+                        </div>
+                        <div class="form-group">
+                            <label for="genre">Cast</label>
+                            <input class="form-control" type="text" name="drama[cast]" value="<%= drama.cast%>" >
+                        </div>
+                        <div class="form-group">
+                            <label for="genre">Episode</label>
+                            <input class="form-control" type="text" name="drama[ep]" value="<%= drama.ep%>">
+                        </div>
+                        <div class="form-group">
+                            <label for="genre">Episode(s) Link</label>
+                            <input class="form-control" type="text" name="drama[epLink]" value="<%= drama.epLink%>">
+                        </div>
+                        <button class="btn btn-primary">Submit</button>
+                </form>
+           
+           </div>
+           <% }); %>             
+            
+                   
+            
+        </div>
+    </div>
+</div>
+
+
+
+<% include partials/footer.ejs%>

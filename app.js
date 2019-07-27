@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override");
 
 
 
@@ -19,6 +20,7 @@ mongoose.connect('mongodb+srv://nararoth:CxEUuAAaC8wCeIuq@cluster0-bbu2l.mongodb
 // App Configuration
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 
 // Schema Setup
@@ -34,33 +36,6 @@ var dramaSchema = new mongoose.Schema({
 
 var dramaList = mongoose.model("dramaList", dramaSchema);
 
-// dramaList.create({
-//     title: "Nararoth Tester",
-//     image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-//     genre: "Sad",
-//     noEps: 10,
-//     cast: "Nararoth and Naroth"
-// }, function(err, dramaList){
-//     if(err){
-//         console.log(err)
-//     } else {
-//         console.log("Newly Created!")
-//     }
-// });
-
-// var dramaList = [
-//     {name: "Nararoth", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Vatey", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Visal", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Thearith", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Thearith", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Thearith", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Thearith", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Thearith", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Thearith", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Thearith", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-//     {name: "Flower", image: "https://images.unsplash.com/photo-1563285851-d81750ac22fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-// ];
 
 app.get("/", (req, res) => {
     res.render("landing");
@@ -99,16 +74,6 @@ app.get("/drama/new", (req, res) => {
     res.render("new")
 });
 
-// app.get("/drama/:id", (req,res) => {
-//     dramaList.findById( req.params.id , function(err, foundDrama){
-//         if(err){
-//             console.log(err)
-//         } else {
-//             res.render("show", {foundDrama: foundDrama});
-//         }
-//     });
-
-// });
 
 app.get("/drama/:title", (req, res) => {
     dramaList.find({ title: req.params.title }, (err, dramaList) => {
@@ -121,17 +86,56 @@ app.get("/drama/:title", (req, res) => {
     });
 });
 
-app.get("/drama/:title/:ep", (req, res) => {
+
+//edit drama routes
+app.get("/drama/:title/edit", (req, res) => {
     dramaList.find({ title: req.params.title }, (err, dramaList) => {
         if (err) {
             console.log(err);
         } else {
             console.log(dramaList);
-            res.render("watch", { dramaList: dramaList });
+            res.render("edit", { dramaList: dramaList });
         };
     });
-
 });
+
+//Update Route
+app.put("/drama/:title", (req, res) => {
+    dramaList.update({ title: req.params.title }, {
+        $set:
+        {
+            title: req.body.drama.title,
+            image: req.body.drama.image,
+            genre: req.body.drama.genre,
+            noEps: req.body.drama.noEps,
+            cast: req.body.drama.cast,
+            ep: req.body.drama.ep,
+            epLink: req.body.drama.epLink
+        }
+    }, (err, updateDrama) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(updateDrama);
+            res.redirect("/drama")
+        };
+    });
+});
+
+//watch route
+// app.get("/drama/:title/:ep", (req, res) => {
+//     dramaList.update({}, { $set: { dramaList: req.body.drama } }, (err, dramaList) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             dramaList.update()
+//             res.render("watch", { dramaList: dramaList });
+//         };
+//     });
+
+// });
+
+
 
 app.listen(3000, process.env.IP, function () {
     console.log("server is running!");
