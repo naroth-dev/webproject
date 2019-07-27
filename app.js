@@ -122,6 +122,17 @@ app.put("/drama/:title", (req, res) => {
     });
 });
 
+//Delete drama routes
+app.delete("/drama/:title", (req, res) => {
+    dramaList.findOneAndDelete({ title: req.params.title }, (err, dramaList) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect("/drama")
+        };
+    });
+});
+
 //watch route
 // app.get("/drama/:title/:ep", (req, res) => {
 //     dramaList.update({}, { $set: { dramaList: req.body.drama } }, (err, dramaList) => {

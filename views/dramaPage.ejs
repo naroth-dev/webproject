@@ -18,6 +18,10 @@
                             <h5 class="card-title "><%=drama.title%></h5>
                             <a href="/drama/<%= drama.title%>" class="btn btn-primary">Watch Now!</a>
                             <a href="/drama/<%= drama.title%>/edit" class="btn btn-warning">Edit!</a>
+                            
+                            <form action="/drama/<%= drama.title%>?_method=DELETE" method="POST">
+                                <button class="btn btn-danger">Delete!</button>
+                            </form>
                         </div>
                     </div>
 
