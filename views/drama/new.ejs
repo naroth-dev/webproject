@@ -1,4 +1,4 @@
-<% include partials/header.ejs%>
+<% include ../partials/header.ejs%>
 
 <div class="container">
     <div class="text-center">
@@ -9,7 +9,7 @@
                 <form action="/drama" method="POST">
                     <div class="form-group">
                         <label for="title">Title of Drama</label>
-                        <input class="form-control" type="text" name="title" placeholder="Title of Drama">
+                        <input class="form-control" type="text" name="title" placeholder="Title of Drama" required>
                     </div>
                     <div class="form-group">
                         <label for="image">Image URL</label>
@@ -35,6 +35,14 @@
                         <label for="genre">Episode(s) Link</label>
                         <input class="form-control" type="text" name="epLink" placeholder="Episode(s) Link">
                     </div>
+                    <div class="form-group">
+                        <label for="title">epLins</label>
+                        <input class="form-control" type="text" name="nos" placeholder="nos" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">epLins</label>
+                        <input class="form-control" type="text" name="link" placeholder="link" required>
+                    </div>
                     <button class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -58,4 +66,4 @@
 <% }; %>
 
 
-<% include partials/footer.ejs%>
+<% include ../partials/footer.ejs%>

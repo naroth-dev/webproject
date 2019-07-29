@@ -1,6 +1,12 @@
-<% include partials/header.ejs %>
+<% include ../partials/header.ejs %>
 
 <h1>This is a Show Page</h1>
+
+<% dramaList.forEach(function(comment){%>
+<p>Hello</p>
+    <p><strong><%= comment.title%></strong> - <%= comment.epLinks %> - <%= comment.epLinks.nos %></p>
+    <% console.log(comment.epLinks.link); %>
+<% }); %>
 
 <div class="container">
         <div class="row d-flex flex-wrap">
@@ -44,6 +50,6 @@
 
 
 
-<% include partials/footer.ejs %>
+<% include ../partials/footer.ejs %>
 
 

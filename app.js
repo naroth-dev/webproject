@@ -4,11 +4,16 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+const dotenv = require("dotenv").config()
+
+// Route requirement
+const dramaList = require("./models/drama");
+const episodeLink = require("./models/episodeLink");
 
 
 
 // Mongoose Connect
-mongoose.connect('mongodb+srv://nararoth:CxEUuAAaC8wCeIuq@cluster0-bbu2l.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useCreateIndex: true
 }).then(() => {
@@ -23,19 +28,6 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 
-// Schema Setup
-var dramaSchema = new mongoose.Schema({
-    title: String,
-    image: String,
-    genre: String,
-    noEps: Number,
-    cast: String,
-    ep: Number,
-    epLink: String
-});
-
-var dramaList = mongoose.model("dramaList", dramaSchema);
-
 
 app.get("/", (req, res) => {
     res.render("landing");
@@ -46,7 +38,7 @@ app.get("/drama", (req, res) => {
         if (err) {
             console.log(err)
         } else {
-            res.render("dramaPage", { dramaList: dramaList });
+            res.render("drama/dramaPage", { dramaList: dramaList });
         }
     })
 
@@ -60,28 +52,43 @@ app.post("/drama", (req, res) => {
     var cast = req.body.cast;
     var ep = req.body.ep;
     var epLink = req.body.epLink;
+    var nos = req.body.nos;
+    var link = req.body.link;
+    var newepLinks = { nos: nos, link: link };
     var newDrama = { title: title, image: image, genre: genre, noEps: noEps, cast: cast, ep: ep, epLink: epLink };
     dramaList.create(newDrama, (err, newlyCreated) => {
         if (err) {
             console.log(err)
         } else {
-            res.redirect("/drama")
+            episodeLink.create(newepLinks, (err, newLinkCreated) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    newLinkCreated.save()
+                    newlyCreated.epLinks.push(newLinkCreated);
+                    // console.log(newLinkCreated)
+                    newlyCreated.save();
+                    console.log(newlyCreated)
+                    res.redirect("/drama")
+                }
+            })
+
         }
     })
 });
 
 app.get("/drama/new", (req, res) => {
-    res.render("new")
+    res.render("drama/new")
 });
 
 
 app.get("/drama/:title", (req, res) => {
-    dramaList.find({ title: req.params.title }, (err, dramaList) => {
+    dramaList.find({ title: req.params.title }).populate("epLinks").exec((err, dramaList) => {
         if (err) {
             console.log(err);
         } else {
             console.log(dramaList);
-            res.render("show", { dramaList: dramaList });
+            res.render("drama/show", { dramaList: dramaList });
         };
     });
 });
@@ -94,7 +101,7 @@ app.get("/drama/:title/edit", (req, res) => {
             console.log(err);
         } else {
             console.log(dramaList);
-            res.render("edit", { dramaList: dramaList });
+            res.render("drama/edit", { dramaList: dramaList });
         };
     });
 });
@@ -140,13 +147,41 @@ app.get("/drama/:title/:ep", (req, res) => {
             console.log(err);
         } else {
             console.log(dramaList);
-            res.render("watch", { dramaList: dramaList });
+            res.render("drama/watch", { dramaList: dramaList });
         };
     });
 
 });
 
+// episodeLinks
+app.get("/drama/:title/links/new", (req, res) => {
+    dramaList.find({ title: req.params.title }, (err, dramaList) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(dramaList);
+            res.render("addeps/new", { dramaList: dramaList });
+        };
+    });
+});
 
+app.post("/drama/:title/links", (req, res) => {
+    dramaList.find({ title: req.params.title }, (err, dramaList) => {
+        if (err) {
+            console.log(err);
+        } else {
+            episodeLink.create(req.body.epLinks, function (err, links) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    dramaList.epLinks.push(links);
+                    dramaList.save();
+                    res.redirect("/drama/" + dramaList.title);
+                }
+            })
+        };
+    });
+});
 
 app.listen(3000, process.env.IP, function () {
     console.log("server is running!");

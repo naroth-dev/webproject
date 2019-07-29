@@ -1,4 +1,4 @@
-<% include partials/header.ejs %>
+<% include ../partials/header.ejs %>
 
 
 
@@ -16,12 +16,17 @@
                         <img src="<%= drama.image%>">
                         <div class="card-body text-center">
                             <h5 class="card-title "><%=drama.title%></h5>
-                            <a href="/drama/<%= drama.title%>/watch" class="btn btn-primary">Watch Now!</a>
-                            <a href="/drama/<%= drama.title%>/edit" class="btn btn-warning">Edit!</a>
+                            <div class="d-flex flex-wrap" style="padding-left: 25%;">
+                                <a href="/drama/<%= drama.title%>" class="btn btn-info">M</a>
+                                <a href="/drama/<%= drama.title%>/watch" class="btn btn-primary">W</a>
+                                <a href="/drama/<%= drama.title%>/edit" class="btn btn-warning">E</a>
+                                <form action="/drama/<%= drama.title%>?_method=DELETE" method="POST">
+                                    <button class="btn btn-danger">X</button>
+                                </form>
+                            </div>
                             
-                            <form action="/drama/<%= drama.title%>?_method=DELETE" method="POST">
-                                <button class="btn btn-danger">Delete!</button>
-                            </form>
+                            
+                           
                         </div>
                     </div>
 
@@ -30,4 +35,4 @@
             
         </div>
     </div>
-<% include partials/footer.ejs %>
+<% include ../partials/footer.ejs %>
